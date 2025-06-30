@@ -1,0 +1,42 @@
+{
+  "name": "@memo28.pro/pro",
+  "version": "0.0.1",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build:api": "pnpm build && api-extractor run --local --verbose",
+    "prepare": "husky install",
+    "updateDep": "turbo run updateDep --color",
+    "build": "turbo run build --color",
+    "build:watch": "turbo run build:watch --color",
+    "links": "turbo run links --color",
+    "test": "turbo run test --color",
+    "dev": "turbo run dev --parallel",
+    "lint": "turbo run lint --color",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "cz": "git add . && pnpm cz-customizable",
+    "ci:publish": "pnpm publish -r",
+    "build:md": "turbo run build:md --color && api-documenter markdown"
+  },
+  "devDependencies": {
+    "@vitest/ui": "^3.2.4",
+    "husky": "^9.1.7",
+    "jsdom": "^26.1.0",
+    "prettier": "^3.6.2",
+    "turbo": "^2.5.4",
+    "vitest": "^3.2.4"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.29.5",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@microsoft/api-extractor": "^7.52.8",
+    "cz-customizable": "^7.4.0",
+    "reflect-metadata": "^0.2.2",
+    "vite": "^7.0.0"
+  }
+}

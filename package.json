@@ -10,7 +10,8 @@
     "prepare": "husky install",
     "updateDep": "turbo run updateDep --color",
     "build": "turbo run build --color",
-    "build:watch": "turbo run build:watch --color",
+    "build:watch": "pnpm preBuild && turbo run build:watch --color",
+    "preBuild": "turbo run preBuild --color",
     "links": "turbo run links --color",
     "test": "turbo run test --color",
     "dev": "turbo run dev --parallel",
@@ -38,5 +39,6 @@
     "cz-customizable": "^7.4.0",
     "reflect-metadata": "^0.2.2",
     "vite": "^7.0.0"
-  }
+  },
+  "packageManager": "pnpm@10.8.1"
 }

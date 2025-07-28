@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    // 启用声明文件生成
+    "declaration": true,
+
+    // 只生成声明文件，不生成 JS 文件
+    "emitDeclarationOnly": true,
+
+    // 指定声明文件输出目录
+    "declarationDir": "./dts",
+
+    // 生成声明文件的 sourcemap
+    "declarationMap": true,
+
+    // 禁用 JS 文件输出
+    "noEmit": false,
+
+    // 其他保持不变的配置...
+    "target": "es2016",
+    "lib": ["ESNext", "DOM"],
+    "types": ["../base.d.ts", "../number.d.ts"],
+    "experimentalDecorators": true,
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true
+  }
+}

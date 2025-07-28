@@ -1,0 +1,24 @@
+{
+  "name": "@memo28.pro/notification",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "vitest run",
+    "build": "tsc --project tsconfig.json && vite build",
+    "build:watch": "tsc --project tsconfig.json && vite build --watch",
+    "build:md": "pnpm build && api-extractor run --local --verbose && sh mv.sh",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "links": "pnpm link --global"
+  },
+  "dependencies": {
+    "@memo28.pro/builder": "workspace:^1.0.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.8.1",
+  "module": "./dist/index.js",
+  "types": "./lib/index.d.ts"
+}

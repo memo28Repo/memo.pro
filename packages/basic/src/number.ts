@@ -1,0 +1,50 @@
+/*
+ * @Author: @memo28.repo
+ * @Date: 2025-07-08 17:26:29
+ * @LastEditTime: 2025-07-08 17:40:09
+ * @Description: 
+ * @FilePath: /memo28.pro.Repo/packages/basic/src/number.ts
+ */
+
+export function numberExtensions() {
+    Number.prototype.eq = function (this: Number, val: number | string) {
+        const typeofString = typeof val;
+        let diffVal = val
+        if (!['number', 'string'].includes(typeofString)) return false
+        if (typeofString === 'string') diffVal = parseFloat(val as string)
+        return diffVal === this
+    }
+
+    Number.prototype.isEmpty = function (this: Number) {
+        return this === 0
+    }
+
+    Number.prototype.isNotEmpty = function (this: Number) {
+        return !this.isEmpty()
+    }
+
+    Number.prototype.isZero = function (this: Number) {
+        return this === 0
+    }
+
+    Number.prototype.isNotZero = function (this: Number) {
+        return !this.isZero()
+    }
+
+    Number.prototype.lessThan = function (this: Number, diff: number) {
+        return this.valueOf() < diff
+    }
+
+    Number.prototype.lessThanOrEqual = function (this: Number, diff: number) {
+        return this.valueOf() <= diff
+    }
+
+    Number.prototype.greaterThan = function (this: Number, diff: number) {
+        return this.valueOf() > diff
+    }
+
+    Number.prototype.greaterThanOrEqual = function (this: Number, diff: number) {
+        return this.valueOf() >= diff
+    }
+
+}

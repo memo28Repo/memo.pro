@@ -16,6 +16,10 @@
     "@memo28.pro/builder": "workspace:^1.0.0"
   },
   "keywords": [],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.8.1",

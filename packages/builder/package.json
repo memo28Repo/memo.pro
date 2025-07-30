@@ -1,6 +1,6 @@
 {
   "name": "@memo28.pro/builder",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "./lib/index.js",
   "module": "./dist/index.js",
@@ -16,7 +16,10 @@
     "test:ui": "vitest --ui",
     "links": "pnpm link --global",
     "build:watch": "pnpm build:cjs --watch & pnpm build:es --watch"
-
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
   "keywords": [],
   "author": "",

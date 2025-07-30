@@ -1,6 +1,6 @@
 {
   "name": "@memo28.pro/basic",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "basic utils",
   "main": "./lib/index.js",
   "scripts": {
@@ -14,8 +14,24 @@
   },
   "keywords": [],
   "dependencies": {
-    "@memo28.pro/builder": "workspace:^1.0.0"
+    "@memo28.pro/builder": "workspace:^0.0.2"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "lib",
+    "dts",
+    "array.d.ts",
+    "base.d.ts",
+    "func.d.ts",
+    "number.d.ts",
+    "object.d.ts",
+    "string.d.ts",
+    "all.d.ts"
+  ],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.8.1",

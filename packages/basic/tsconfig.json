@@ -17,11 +17,7 @@
       "DOM"
     ],
     "types": [
-      "./base.d.ts",
-      "./number.d.ts",
-      "./string.d.ts",
-      "./object.d.ts",
-      "./array.d.ts"
+      "./all.d.ts"
     ],
     "experimentalDecorators": true,
     "module": "commonjs",

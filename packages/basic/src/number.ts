@@ -6,12 +6,19 @@
  * @FilePath: /memo28.pro.Repo/packages/basic/src/number.ts
  */
 
+import Decimal from 'decimal.js'
+
+
 export function numberExtensions() {
     Number.prototype.eq = function (this: Number, val: number | string) {
+        if (Number.isNaN(this)) return false;
         const typeofString = typeof val;
+
         let diffVal = val
         if (!['number', 'string'].includes(typeofString)) return false
-        if (typeofString === 'string') diffVal = parseFloat(val as string)
+        if (typeofString === 'string') {
+            return this.toString() === val
+        }
         return diffVal === this
     }
 
@@ -32,19 +39,19 @@ export function numberExtensions() {
     }
 
     Number.prototype.lessThan = function (this: Number, diff: number) {
-        return this.valueOf() < diff
+        return new Decimal(this.valueOf()).lessThan(diff)
     }
 
     Number.prototype.lessThanOrEqual = function (this: Number, diff: number) {
-        return this.valueOf() <= diff
+        return new Decimal(this.valueOf()).lessThanOrEqualTo(diff)
     }
 
     Number.prototype.greaterThan = function (this: Number, diff: number) {
-        return this.valueOf() > diff
+        return new Decimal(this.valueOf()).greaterThan(diff)
     }
 
     Number.prototype.greaterThanOrEqual = function (this: Number, diff: number) {
-        return this.valueOf() >= diff
+        return new Decimal(this.valueOf()).greaterThanOrEqualTo(diff)
     }
 
 }

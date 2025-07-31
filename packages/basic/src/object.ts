@@ -5,7 +5,9 @@ export function objectExtensions() {
     }
 
     Object.prototype.isEmpty = function (this: Object) {
-        return Object.keys(this).length === 0
+        return Reflect.ownKeys(this).every(
+            key => !this.propertyIsEnumerable(key)
+        );
     }
 
 
@@ -14,17 +16,20 @@ export function objectExtensions() {
     }
 
     Object.prototype.contains = function (this: Object, key: PropertyKey) {
+        if (typeof this !== "object") return false
         return Reflect.has(this, key)
     }
 
     Object.prototype.firstOrNull = function (this: Object) {
         if (this.isEmpty()) return null
+        if (typeof this !== "object") return null
         const firstKey = Object.keys(this)?.[0]
         return Reflect.get(this, firstKey) || null
     }
 
     Object.prototype.lastOrNull = function (this: Object) {
         if (this.isEmpty()) return null
+        if (typeof this !== "object") return null
         const lastKey = Object.keys(this)
         return Reflect.get(this, lastKey[lastKey.length - 1]) || null
     }

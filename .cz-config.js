@@ -15,6 +15,8 @@
 module.exports = {
     types: [
         { value: 'feat', name: 'feat:一个新功能' },
+        { value: 'test', name: 'test:完善测试用例' },
+        { value: 'build', name: 'build:完成打包' },
         { value: 'fix', name: 'fix:修复一个bug' },
         { value: 'docs', name: 'docs:仅文档更改' },
         {

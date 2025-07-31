@@ -4,7 +4,11 @@ export function stringExtensions() {
         const typeofString = typeof val;
         let diff = val
         if (!['string', 'number'].includes(typeofString)) return false
-        if (typeofString === 'number') diff = (val as number).toString()
+        if (typeofString === 'number') {
+            if (Number.isNaN(val)) return false
+            if (Infinity === val) return false
+            return this === `${val}`
+        }
         return diff === this
     }
 

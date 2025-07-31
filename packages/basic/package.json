@@ -14,7 +14,8 @@
   },
   "keywords": [],
   "dependencies": {
-    "@memo28.pro/builder": "workspace:^0.0.2"
+    "@memo28.pro/builder": "workspace:^0.0.2",
+    "decimal.js": "^10.6.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

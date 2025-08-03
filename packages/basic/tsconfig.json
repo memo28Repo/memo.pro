@@ -27,6 +27,8 @@
     "skipLibCheck": true
   },
   "include": [
-    "./src"
+    "./src",
+    "./__test__",
+    "**/*.d.ts"
   ]
 }

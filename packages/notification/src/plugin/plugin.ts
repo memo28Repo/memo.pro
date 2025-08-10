@@ -1,14 +1,15 @@
 /*
  * @Author: @memo28.repo
  * @Date: 2025-07-28 18:05:09
- * @LastEditTime: 2025-08-10 17:15:13
+ * @LastEditTime: 2025-08-10 19:12:31
  * @Description: 
  * @FilePath: /memo28.pro.Repo/packages/notification/src/plugin/plugin.ts
  */
 
 import { MessageBuilder } from "../message/builder";
+import { platformWxCom } from "./wxCom";
 
-export abstract class NotificationPlugin<P = string> {
+export abstract class NotificationPlugin {
     abstract webhook: string;
     abstract getWebhook(): string
     abstract setWebhook(webhook: string): this
@@ -17,9 +18,9 @@ export abstract class NotificationPlugin<P = string> {
      * 平台
      * @public
      */
-    abstract platform: P
-    abstract getPlatform(): P
-    abstract setPlatform(platform: P): this
+    abstract platform: string
+    abstract getPlatform(): string
+    abstract setPlatform(platform: string): this
 
 
     abstract msgBuilder: MessageBuilder | null;
@@ -28,9 +29,9 @@ export abstract class NotificationPlugin<P = string> {
 }
 
 
-export class Base<P = String> extends NotificationPlugin<P> {
+export class Base extends NotificationPlugin {
     webhook: string = '';
-    platform: P = '' as P;
+    platform: string = '' ;
 
     msgBuilder: MessageBuilder | null = null
 
@@ -42,11 +43,11 @@ export class Base<P = String> extends NotificationPlugin<P> {
         this.webhook = webhook
         return this;
     }
-    getPlatform(): P {
+    getPlatform(): string {
         return this.platform;
     }
 
-    setPlatform(platform: P): this {
+    setPlatform(platform: string): this {
         this.platform = platform
         return this;
     }

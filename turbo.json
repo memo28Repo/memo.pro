@@ -12,6 +12,9 @@
     "build:watch": {
       "cache": false
     },
+    "test:watch": {
+      "cache": false
+    },
     "preBuild": {
       "cache": true
     },

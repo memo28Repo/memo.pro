@@ -1,6 +1,7 @@
 export function arrayExtensions() {
 
     Array.prototype.eq = function (this: unknown[], val: unknown[]) {
+        if (!Array.isArray(val)) return false
         return this === val
     }
 

@@ -1,6 +1,6 @@
 {
   "name": "@memo28.pro/basic",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "basic utils",
   "main": "./lib/index.js",
   "scripts": {
@@ -37,5 +37,5 @@
   "license": "ISC",
   "packageManager": "pnpm@10.8.1",
   "module": "./dist/index.js",
-  "types": "./lib/index.d.ts"
+  "types": "./dts/index.d.ts"
 }

@@ -84,6 +84,7 @@ function multiFormatDtsPlugin(
           }
         },
         plugins: [
+          // @ts-ignore
           typescript({
             ...typescriptOptions,
             tsconfig: resolvedTsconfig,

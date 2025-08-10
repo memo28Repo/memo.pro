@@ -1,7 +1,7 @@
 /*
  * @Author: @memo28.repo
  * @Date: 2025-07-28 18:05:09
- * @LastEditTime: 2025-07-28 18:27:36
+ * @LastEditTime: 2025-08-10 17:15:13
  * @Description: 
  * @FilePath: /memo28.pro.Repo/packages/notification/src/plugin/plugin.ts
  */
@@ -28,9 +28,9 @@ export abstract class NotificationPlugin<P = string> {
 }
 
 
-export class Base<P = string> extends NotificationPlugin<P> {
+export class Base<P = String> extends NotificationPlugin<P> {
     webhook: string = '';
-    platform: P;
+    platform: P = '' as P;
 
     msgBuilder: MessageBuilder | null = null
 

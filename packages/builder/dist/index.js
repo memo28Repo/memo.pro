@@ -41,6 +41,7 @@ function multiFormatDtsPlugin(options = {}) {
                     }
                 },
                 plugins: [
+                    // @ts-ignore
                     typescript(Object.assign(Object.assign({}, typescriptOptions), { tsconfig: resolvedTsconfig, compilerOptions: Object.assign({ module: 'esnext', declaration: false, emitDeclarationOnly: false, experimentalDecorators: true, emitDecoratorMetadata: true, target: "es2015" }, typescriptOptions === null || typescriptOptions === void 0 ? void 0 : typescriptOptions.compilerOptions), include: ['src/**/*.ts'], exclud: ['**/vite.config.*', '**/__tests__/**', '**/*.spec.ts', '**/*.test.ts'] }))
                 ]
             };

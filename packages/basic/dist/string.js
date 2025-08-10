@@ -2,7 +2,7 @@ function r() {
   String.prototype.eq = function(t) {
     const n = typeof t;
     let i = t;
-    return ["string", "number"].includes(n) ? (n === "number" && (i = t.toString()), i === this) : !1;
+    return ["string", "number"].includes(n) ? n === "number" ? Number.isNaN(t) || t === 1 / 0 ? !1 : this === `${t}` : i === this : !1;
   }, String.prototype.isEmpty = function() {
     return this.length === 0;
   }, String.prototype.isNotEmpty = function() {

@@ -1,8 +1,10 @@
-function n() {
+import { Decimal as r } from "./node_modules/.pnpm/decimal.js@10.6.0/node_modules/decimal.js/decimal.js";
+function u() {
   Number.prototype.eq = function(t) {
-    const r = typeof t;
-    let e = t;
-    return ["number", "string"].includes(r) ? (r === "string" && (e = parseFloat(t)), e === this) : !1;
+    if (Number.isNaN(this)) return !1;
+    const e = typeof t;
+    let n = t;
+    return ["number", "string"].includes(e) ? e === "string" ? this.toString() === t : n === this : !1;
   }, Number.prototype.isEmpty = function() {
     return this === 0;
   }, Number.prototype.isNotEmpty = function() {
@@ -12,15 +14,15 @@ function n() {
   }, Number.prototype.isNotZero = function() {
     return !this.isZero();
   }, Number.prototype.lessThan = function(t) {
-    return this.valueOf() < t;
+    return new r(this.valueOf()).lessThan(t);
   }, Number.prototype.lessThanOrEqual = function(t) {
-    return this.valueOf() <= t;
+    return new r(this.valueOf()).lessThanOrEqualTo(t);
   }, Number.prototype.greaterThan = function(t) {
-    return this.valueOf() > t;
+    return new r(this.valueOf()).greaterThan(t);
   }, Number.prototype.greaterThanOrEqual = function(t) {
-    return this.valueOf() >= t;
+    return new r(this.valueOf()).greaterThanOrEqualTo(t);
   };
 }
 export {
-  n as numberExtensions
+  u as numberExtensions
 };

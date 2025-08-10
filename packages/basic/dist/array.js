@@ -1,6 +1,6 @@
 function r() {
   Array.prototype.eq = function(t) {
-    return this === t;
+    return Array.isArray(t) ? this === t : !1;
   }, Array.prototype.isEmpty = function() {
     return this.length === 0;
   }, Array.prototype.isNotEmpty = function() {

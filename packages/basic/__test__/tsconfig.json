@@ -16,9 +16,6 @@
       "ESNext",
       "DOM"
     ],
-    "types": [
-      "./all.d.ts"
-    ],
     "experimentalDecorators": true,
     "module": "commonjs",
     "esModuleInterop": true,
@@ -27,7 +24,7 @@
     "skipLibCheck": true
   },
   "include": [
-    "./src",
-    "**/*.d.ts"
+    "../**.d.ts",
+    "./**.test.ts"
   ]
 }

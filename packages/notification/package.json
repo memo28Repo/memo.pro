@@ -1,8 +1,17 @@
 {
   "name": "@memo28.pro/notification",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.0.2",
+  "description": "企业级消息通知解决方案 - 支持多平台消息推送的轻量级 TypeScript SDK",
   "main": "./lib/index.js",
+  "module": "./dist/index.js",
+  "types": "./dts/index.d.ts",
+  "files": [
+    "lib",
+    "dist",
+    "dts",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "test": "vitest run",
     "build": "tsc --project tsconfig.json && vite build",
@@ -10,19 +19,48 @@
     "build:md": "pnpm build && api-extractor run --local --verbose && sh mv.sh",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
-    "links": "pnpm link --global"
+    "links": "pnpm link --global",
+    "prepublishOnly": "npm run build && npm test",
+    "prepack": "npm run build"
   },
   "dependencies": {
     "@memo28.pro/builder": "workspace:^1.0.0"
   },
-  "keywords": [],
+  "keywords": [
+    "notification",
+    "message",
+    "webhook",
+    "wechat",
+    "wecom",
+    "enterprise",
+    "typescript",
+    "sdk",
+    "plugin",
+    "messaging",
+    "企业微信",
+    "消息推送",
+    "通知"
+  ],
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "author": "",
+  "author": {
+    "name": "memo28.repo",
+    "email": "1695415918@qq.com"
+  },
   "license": "ISC",
   "packageManager": "pnpm@10.8.1",
-  "module": "./dist/index.js",
-  "types": "./lib/index.d.ts"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/memo28/memo28.pro.Repo.git",
+    "directory": "packages/notification"
+  },
+  "bugs": {
+    "url": "https://github.com/memo28/memo28.pro.Repo/issues"
+  },
+  "homepage": "https://github.com/memo28/memo28.pro.Repo/tree/main/packages/notification#readme",
+  "engines": {
+    "node": ">=16.0.0"
+  }
 }

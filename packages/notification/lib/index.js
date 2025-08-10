@@ -1,1 +1,1 @@
-"use strict";
+"use strict";const r=require("./core/core.js"),i=require("./message/builder.js"),s=require("./message/builderPayload.js"),e=require("./plugin/plugin.js"),o=require("./plugin/wxCom.js");exports.Core=r.Core;exports.MessageBuilder=i.MessageBuilder;exports.MessageBuilderPayload=s.MessageBuilderPayload;exports.Base=e.Base;exports.NotificationPlugin=e.NotificationPlugin;exports.Wxcom=o.Wxcom;exports.platformWxCom=o.platformWxCom;

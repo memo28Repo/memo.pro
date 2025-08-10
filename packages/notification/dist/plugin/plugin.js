@@ -1,0 +1,29 @@
+class s {
+}
+class r extends s {
+  constructor() {
+    super(...arguments), this.webhook = "", this.platform = "", this.msgBuilder = null;
+  }
+  getWebhook() {
+    return this.webhook;
+  }
+  setWebhook(t) {
+    return this.webhook = t, this;
+  }
+  getPlatform() {
+    return this.platform;
+  }
+  setPlatform(t) {
+    return this.platform = t, this;
+  }
+  setMessageBulder(t) {
+    return this.msgBuilder = t, this;
+  }
+  getMessageBulder() {
+    return this.msgBuilder;
+  }
+}
+export {
+  r as Base,
+  s as NotificationPlugin
+};

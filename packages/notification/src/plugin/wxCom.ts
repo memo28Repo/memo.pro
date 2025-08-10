@@ -1,7 +1,7 @@
 /*
  * @Author: @memo28.repo
  * @Date: 2025-07-28 18:09:51
- * @LastEditTime: 2025-08-10 19:33:41
+ * @LastEditTime: 2025-08-10 19:37:01
  * @Description: 企业微信消息发送插件，支持text和markdown格式消息发送
  * @FilePath: /memo28.pro.Repo/packages/notification/src/plugin/wxCom.ts
  */

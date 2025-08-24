@@ -1,5 +1,11 @@
 # @memo28.pro/basic
 
+## 0.0.4
+
+### Patch Changes
+
+- 完善基础类型定义
+
 ## 0.0.3
 
 ### Patch Changes

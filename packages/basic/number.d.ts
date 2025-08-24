@@ -7,20 +7,25 @@
  */
 
 
-declare interface Number extends BaseFuncCall<number>, Comparable<number> {
-    /**
-     *
-     * 是否等于0
-     *
-     * @public
-     */
-    isZero(): boolean
+declare global {
+    interface Number extends BaseFuncCall<number>, Comparable<number> {
+        /**
+         *
+         * 是否等于0
+         *
+         * @public
+         */
+        isZero(): boolean
 
-    /**
-     *
-     * 是否不等于0
-     * @public
-     */
-    isNotZero(): boolean
+        /**
+         *
+         * 是否不等于0
+         * @public
+         */
+        isNotZero(): boolean
 
+        toDecimal(): import('decimal.js').Decimal
+    }
 }
+
+export {}

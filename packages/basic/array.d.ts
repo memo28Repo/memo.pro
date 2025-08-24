@@ -6,5 +6,10 @@
  * @FilePath: /memo28.pro.Repo/packages/basic/array.d.ts
  */
 
-interface Array<T> extends BaseFuncCall<T[]>, Collection<T> {
+
+declare global {
+    interface Array<T> extends BaseFuncCall<T[]>, Collection<T> {
+    }
 }
+
+export {}

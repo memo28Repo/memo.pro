@@ -7,7 +7,10 @@
  */
 
 
-
-
-declare interface Object extends BaseFuncCall<object>, Collection<PropertyKey> {
+declare global {
+    interface Object extends BaseFuncCall<object>, Collection<PropertyKey> {
+    }
 }
+
+export {}
+

@@ -10,6 +10,7 @@ import Decimal from 'decimal.js'
 
 
 export function numberExtensions() {
+
     Number.prototype.eq = function (this: Number, val: number | string) {
         if (Number.isNaN(this)) return false;
         const typeofString = typeof val;
@@ -52,6 +53,10 @@ export function numberExtensions() {
 
     Number.prototype.greaterThanOrEqual = function (this: Number, diff: number) {
         return new Decimal(this.valueOf()).greaterThanOrEqualTo(diff)
+    }
+
+    Number.prototype.toDecimal = function (this: Number) {
+        return new Decimal(this.valueOf())
     }
 
 }

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.3
+
+### Patch Changes
+
+- 优化构建工具打包
+
 ## 0.0.2
 
 ### Patch Changes

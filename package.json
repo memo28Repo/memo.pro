@@ -11,6 +11,7 @@
     "prepare": "husky install",
     "updateDep": "turbo run updateDep --color",
     "build": "turbo run build --color",
+    "build:pkg": "turbo run build --color --filter='./packages/*'",
     "build:watch": "pnpm preBuild && turbo run build:watch --color",
     "test:watch": "turbo run test:watch --color",
     "preBuild": "turbo run preBuild --color",

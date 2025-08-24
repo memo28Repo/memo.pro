@@ -1,12 +1,15 @@
 {
   "name": "@memo28.pro/basic",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "basic utils",
-  "main": "./lib/index.js",
+  "main": "./dist/src/index.cjs",
+  "module": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "type": "module",
   "scripts": {
     "test": "vitest run",
-    "build": "tsc --project tsconfig.json && vite build",
-    "build:watch": "tsc --project tsconfig.json && vite build --watch",
+    "build": "tsdown --format cjs,esm --platform browser --minify",
+    "build:watch": "tsdown --watch",
     "build:md": "pnpm build && api-extractor run --local --verbose && sh mv.sh",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
@@ -14,7 +17,6 @@
   },
   "keywords": [],
   "dependencies": {
-    "@memo28.pro/builder": "workspace:^0.0.2",
     "decimal.js": "^10.6.0"
   },
   "publishConfig": {
@@ -36,6 +38,7 @@
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.8.1",
-  "module": "./dist/index.js",
-  "types": "./dts/index.d.ts"
+  "devDependencies": {
+    "tsdown": "^0.14.1"
+  }
 }

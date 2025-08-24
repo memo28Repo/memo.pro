@@ -1,1 +1,0 @@
-"use strict";const n=require("./number.js"),s=require("./string.js"),e=require("./object.js"),r=require("./array.js");exports.numberExtensions=n.numberExtensions;exports.stringExtensions=s.stringExtensions;exports.objectExtensions=e.objectExtensions;exports.arrayExtensions=r.arrayExtensions;

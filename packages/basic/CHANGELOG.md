@@ -1,5 +1,11 @@
 # @memo28.pro/basic
 
+## 0.0.5
+
+### Patch Changes
+
+- 优化构建工具打包
+
 ## 0.0.4
 
 ### Patch Changes

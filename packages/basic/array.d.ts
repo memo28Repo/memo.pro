@@ -7,8 +7,11 @@
  */
 
 
+export interface ArrayExtensions extends BaseFuncCall<T[]>, Collection<T> {
+}
+
 declare global {
-    interface Array<T> extends BaseFuncCall<T[]>, Collection<T> {
+    interface Array<T> extends ArrayExtensions {
     }
 }
 

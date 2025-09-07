@@ -1,5 +1,11 @@
 # @memo28.pro/basic
 
+## 0.0.6
+
+### Patch Changes
+
+- build:重构项目并添加新功能
+
 ## 0.0.5
 
 ### Patch Changes

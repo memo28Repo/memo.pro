@@ -6,8 +6,10 @@
  * @FilePath: /memo28.pro.Repo/packages/basic/string.d.ts
  */
 
+export interface StringExtensions extends BaseFuncCall<string>, Collection<string> {}
+
 declare global {
-    interface String extends BaseFuncCall<string>, Collection<string> {
+    interface String extends StringExtensions {
     }
 
 }

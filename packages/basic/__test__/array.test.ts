@@ -69,4 +69,51 @@ describe('arrayExtensions', () => {
     })
 
 
+    describe('distinct', () => {
+        it('应去除重复元素', () => {
+            expect([1, 1, 2, 3].distinct()).toEqual([1, 2, 3]);
+            expect(['a', 'a', 'b'].distinct()).toEqual(['a', 'b']);
+        });
+
+        it('应保持首次出现的顺序', () => {
+            expect([1, 2, 1, 3].distinct()).toEqual([1, 2, 3]);
+        });
+
+        it('引用类型元素应按引用比较', () => {
+            const obj = { id: 1 };
+            const arr = [obj, { id: 1 }, obj];
+            const distinct = arr.distinct();
+            expect(distinct).toEqual([obj, { id: 1 }]);
+            expect(distinct[0]).toBe(obj);
+            expect(distinct[1]).toBe(arr[1]);
+        });
+
+        it('this指向测试', () => {
+            const result = Array.prototype.distinct.call([1, 1, 2]);
+            expect(result).toEqual([1, 2]);
+        });
+    });
+
+    describe('chunk', () => {
+        it('应按照指定大小分组', () => {
+            expect([1, 2, 3, 4].chunk(2)).toEqual([[1, 2], [3, 4]]);
+            expect([1, 2, 3, 4, 5].chunk(2)).toEqual([[1, 2], [3, 4], [5]]);
+        });
+
+        it('小数大小应向下取整', () => {
+            expect([1, 2, 3].chunk(1.8)).toEqual([[1], [2], [3]]);
+        });
+
+        it('非正数大小应返回空数组', () => {
+            expect([1, 2, 3].chunk(0)).toEqual([]);
+            expect([1, 2, 3].chunk(-1)).toEqual([]);
+        });
+
+        it('this指向测试', () => {
+            const result = Array.prototype.chunk.call([1, 2, 3, 4], 3);
+            expect(result).toEqual([[1, 2, 3], [4]]);
+        });
+    });
+
+
 })

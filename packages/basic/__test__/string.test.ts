@@ -106,6 +106,57 @@ describe('stringExtensions', () => {
         });
     });
 
+    describe('contains', () => {
+        it('应正确判断包含关系', () => {
+            expect('hello'.contains('ell')).toBe(true);
+            expect('hello world'.contains('world')).toBe(true);
+            expect('typescript'.contains('script')).toBe(true);
+        });
+
+        it('应正确处理不存在的子串', () => {
+            expect('hello'.contains('abc')).toBe(false);
+            expect('memo'.contains('Memo')).toBe(false);
+        });
+
+        it('应处理非字符串参数', () => {
+            // @ts-ignore
+            expect('room42'.contains(42)).toBe(true);
+            // @ts-ignore
+            expect('boolean'.contains(true)).toBe(false);
+            // @ts-ignore
+            expect('null'.contains(null)).toBe(false);
+        });
+
+        it('this指向测试', () => {
+            expect(String.prototype.contains.call('hello', 'he')).toBe(true);
+            expect(String.prototype.contains.call('hello', 'HE')).toBe(false);
+        });
+    });
+
+    describe('equalsIgnoreCase', () => {
+        it('应在忽略大小写时返回true', () => {
+            expect('Hello'.equalsIgnoreCase('hello')).toBe(true);
+            expect('TypeScript'.equalsIgnoreCase('typescript')).toBe(true);
+        });
+
+        it('不同内容应返回false', () => {
+            expect('Hello'.equalsIgnoreCase('world')).toBe(false);
+            expect('abc'.equalsIgnoreCase('abd')).toBe(false);
+        });
+
+        it('非字符串参数应返回false', () => {
+            // @ts-ignore
+            expect('123'.equalsIgnoreCase(123)).toBe(false);
+            // @ts-ignore
+            expect('true'.equalsIgnoreCase(true)).toBe(false);
+        });
+
+        it('this指向测试', () => {
+            expect(String.prototype.equalsIgnoreCase.call('HELLO', 'hello')).toBe(true);
+            expect(String.prototype.equalsIgnoreCase.call('HELLO', 'HELLo')).toBe(true);
+        });
+    });
+
 
     describe('lastOrNull', () => {
         it('非空字符串应返回最后一个字符', () => {
@@ -236,6 +287,24 @@ describe('stringExtensions', () => {
             const longStr = 'a'.repeat(10000);
             expect(longStr.isNotEmpty()).toBe(true);
             expect(''.isNotEmpty()).toBe(false);
+        });
+    });
+
+    describe('isBlank', () => {
+        it('空白字符串应返回true', () => {
+            expect(''.isBlank()).toBe(true);
+            expect('   '.isBlank()).toBe(true);
+            expect('\t\n'.isBlank()).toBe(true);
+        });
+
+        it('含非空白字符应返回false', () => {
+            expect(' a '.isBlank()).toBe(false);
+            expect('text'.isBlank()).toBe(false);
+        });
+
+        it('this指向测试', () => {
+            expect(String.prototype.isBlank.call('   ')).toBe(true);
+            expect(String.prototype.isBlank.call(' 1 ')).toBe(false);
         });
     });
 })

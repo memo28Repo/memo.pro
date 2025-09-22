@@ -59,4 +59,58 @@ export function numberExtensions() {
         return new Decimal(this.valueOf())
     }
 
+    /**
+     * 将当前数值限制在指定区间内
+     */
+    Number.prototype.clamp = function (this: Number, min: number, max: number) {
+        let lower = Number(min)
+        let upper = Number(max)
+        if (Number.isNaN(lower) || Number.isNaN(upper)) return Number.NaN
+        if (lower > upper) {
+            [lower, upper] = [upper, lower]
+        }
+
+        const rawValue = this.valueOf()
+        if (Number.isNaN(rawValue)) return Number.NaN
+
+        if (Number.isFinite(lower) && Number.isFinite(upper) && Number.isFinite(rawValue)) {
+            const value = new Decimal(rawValue)
+            if (value.lessThan(lower)) return lower
+            if (value.greaterThan(upper)) return upper
+            return value.toNumber()
+        }
+
+        if (rawValue < lower) return lower
+        if (rawValue > upper) return upper
+        return rawValue
+    }
+
+    /**
+     * 判断当前数值是否处于指定区间
+     */
+    Number.prototype.isBetween = function (this: Number, min: number, max: number, inclusive = true) {
+        let lower = Number(min)
+        let upper = Number(max)
+        if (Number.isNaN(lower) || Number.isNaN(upper)) return false
+        if (lower > upper) {
+            [lower, upper] = [upper, lower]
+        }
+
+        const rawValue = this.valueOf()
+        if (Number.isNaN(rawValue)) return false
+
+        if (Number.isFinite(lower) && Number.isFinite(upper) && Number.isFinite(rawValue)) {
+            const value = new Decimal(rawValue)
+            if (inclusive) {
+                return value.greaterThanOrEqualTo(lower) && value.lessThanOrEqualTo(upper)
+            }
+            return value.greaterThan(lower) && value.lessThan(upper)
+        }
+
+        if (inclusive) {
+            return rawValue >= lower && rawValue <= upper
+        }
+        return rawValue > lower && rawValue < upper
+    }
+
 }

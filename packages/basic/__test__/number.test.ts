@@ -293,6 +293,71 @@ describe('numberExtensions', () => {
             expect(Number.prototype.isEmpty.call('0' as any)).toBe(false); // 错误类型
         });
     });
+
+    describe('clamp', () => {
+        it('应限制在区间内', () => {
+            expect((5).clamp(1, 10)).toBe(5);
+            expect((0).clamp(-5, 5)).toBe(0);
+        });
+
+        it('小于下限应返回下限', () => {
+            expect((-10).clamp(-5, 5)).toBe(-5);
+        });
+
+        it('大于上限应返回上限', () => {
+            expect((10).clamp(-5, 5)).toBe(5);
+        });
+
+        it('边界顺序可自动调整', () => {
+            expect((2).clamp(5, 1)).toBe(2);
+            expect((0).clamp(5, -5)).toBe(0);
+        });
+
+        it('NaN边界应返回NaN', () => {
+            expect(Number.isNaN((1).clamp(NaN, 5))).toBe(true);
+            expect(Number.isNaN((1).clamp(0, NaN))).toBe(true);
+        });
+
+        it('this为NaN应返回NaN', () => {
+            expect(Number.isNaN((NaN).clamp(0, 1))).toBe(true);
+        });
+
+        it('应处理无穷值', () => {
+            expect((Infinity).clamp(0, 10)).toBe(10);
+            expect((-Infinity).clamp(-10, 10)).toBe(-10);
+        });
+    });
+
+    describe('isBetween', () => {
+        it('默认包含边界', () => {
+            expect((5).isBetween(1, 10)).toBe(true);
+            expect((1).isBetween(1, 10)).toBe(true);
+            expect((10).isBetween(1, 10)).toBe(true);
+        });
+
+        it('非包含比较', () => {
+            expect((5).isBetween(1, 10, false)).toBe(true);
+            expect((1).isBetween(1, 10, false)).toBe(false);
+            expect((10).isBetween(1, 10, false)).toBe(false);
+        });
+
+        it('边界顺序可调整', () => {
+            expect((5).isBetween(10, 1)).toBe(true);
+            expect((0).isBetween(5, -5)).toBe(true);
+        });
+
+        it('NaN应返回false', () => {
+            expect((NaN).isBetween(0, 1)).toBe(false);
+            expect((1).isBetween(NaN, 5)).toBe(false);
+            expect((1).isBetween(0, NaN)).toBe(false);
+        });
+
+        it('应处理无穷值', () => {
+            expect((Infinity).isBetween(0, Infinity)).toBe(true);
+            expect((-Infinity).isBetween(-Infinity, 0)).toBe(true);
+            expect((5).isBetween(-Infinity, Infinity, false)).toBe(true);
+        });
+    });
 })
 
 

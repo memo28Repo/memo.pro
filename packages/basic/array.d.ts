@@ -7,11 +7,20 @@
  */
 
 
-export interface ArrayExtensions extends BaseFuncCall<T[]>, Collection<T> {
+export interface ArrayExtensions<T> extends BaseFuncCall<T[]>, Collection<T> {
+    /**
+     * 获取去重后的数组
+     */
+    distinct(): T[];
+
+    /**
+     * 按指定大小分组
+     */
+    chunk(size: number): T[][];
 }
 
 declare global {
-    interface Array<T> extends ArrayExtensions {
+    interface Array<T> extends ArrayExtensions<T> {
     }
 }
 

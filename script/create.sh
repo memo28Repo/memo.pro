@@ -1,11 +1,3 @@
-###
-# @Author: 邱狮杰
-# @Date: 2023-04-16 09:03:29
- # @LastEditTime: 2025-06-30 16:36:43
-# @Description:
- # @FilePath: /memo28.pro.Repo/script/create.sh
-###
-
 mkdir etc
 
 mkdir src

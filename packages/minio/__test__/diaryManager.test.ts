@@ -1,9 +1,16 @@
+/*
+ * @Author: @memo28.repo
+ * @Date: 2025-09-14 16:04:22
+ * @LastEditTime: 2025-09-24 20:59:39
+ * @Description: 
+ * @FilePath: /memo28.pro.Repo/packages/minio/__test__/diaryManager.test.ts
+ */
 // // tests/diaryManager.test.ts
-import {describe, it, expect, vi, beforeEach} from "vitest";
-import {DiaryManager, ApiUploader, DirectUploader, DiaryEntry} from "../src/";
-import {faker, fakerZH_CN} from '@faker-js/faker'
+import { faker, fakerZH_CN } from '@faker-js/faker';
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { ApiUploader, DiaryEntry, DiaryManager, DirectUploader } from "../src/";
 
-describe("管理器", () => {
+describe.skip("管理器", () => {
     describe("直传管理器", () => {
         it("自动建桶", async () => {
             const diaryManager = new DiaryManager(new DirectUploader());

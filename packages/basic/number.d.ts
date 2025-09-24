@@ -24,6 +24,31 @@ export interface NumberExtensions extends BaseFuncCall<number>, Comparable<numbe
     isNotZero(): boolean
 
     toDecimal(): import('decimal.js').Decimal
+
+    /**
+     * 将当前数值限制在指定区间
+     */
+    clamp(min: number, max: number): number
+
+    /**
+     * 判断当前数值是否处于区间内
+     */
+    isBetween(min: number, max: number, inclusive?: boolean): boolean
+
+    /**
+     * 按指定精度舍入数值
+     */
+    roundTo(precision?: number, mode?: 'round' | 'floor' | 'ceil'): number
+
+    /**
+     * 判断是否为偶数
+     */
+    isEven(): boolean
+
+    /**
+     * 判断是否为奇数
+     */
+    isOdd(): boolean
 }
 
 declare global {

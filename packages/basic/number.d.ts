@@ -34,6 +34,23 @@ export interface NumberExtensions extends BaseFuncCall<number>, Comparable<numbe
      * 判断当前数值是否处于区间内
      */
     isBetween(min: number, max: number, inclusive?: boolean): boolean
+
+
+    /**
+     * 按指定精度舍入数值
+     */
+    roundTo(precision?: number, mode?: 'round' | 'floor' | 'ceil'): number
+
+    /**
+     * 判断是否为偶数
+     */
+    isEven(): boolean
+
+    /**
+     * 判断是否为奇数
+     */
+    isOdd(): boolean
+
 }
 
 declare global {

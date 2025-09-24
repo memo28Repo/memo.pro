@@ -51,4 +51,59 @@ export function stringExtensions() {
     String.prototype.lastOrNull = function () {
         return this.isEmpty() ? null : this[this.length - 1]
     }
+
+    /**
+     * 统计指定子串在当前字符串中出现的次数
+     *
+     * @param val 需要查找的子串，若为空则始终返回0
+     * @param allowOverlap 是否允许重叠匹配
+     */
+    String.prototype.count = function (this: string, val: string | number | boolean, allowOverlap = false) {
+        if (val === null || val === undefined) return 0
+        const needle = typeof val === 'string' ? val : String(val)
+        if (needle.length === 0) return 0
+
+        const source = this.toString()
+        let matches = 0
+        let position = 0
+        while (position <= source.length - needle.length) {
+            const index = source.indexOf(needle, position)
+            if (index === -1) break
+            matches += 1
+            position = index + (allowOverlap ? 1 : needle.length)
+        }
+        return matches
+    }
+
+    /**
+     * 获取第一次出现分隔符之前的子串
+     *
+     * @param separator 分隔符，若为空则返回原始字符串
+     * @param missingValue 当未找到分隔符时返回的值，默认返回原字符串
+     */
+    String.prototype.substringBefore = function (this: string, separator: unknown, missingValue?: string) {
+        const source = this.toString()
+        if (separator === null || separator === undefined) return source
+        const token = String(separator)
+        if (token.length === 0) return source
+        const index = source.indexOf(token)
+        if (index === -1) return missingValue !== undefined ? missingValue : source
+        return source.slice(0, index)
+    }
+
+    /**
+     * 获取第一次出现分隔符之后的子串
+     *
+     * @param separator 分隔符，若为空则返回missingValue
+     * @param missingValue 当未找到分隔符时返回的值，默认返回空字符串
+     */
+    String.prototype.substringAfter = function (this: string, separator: unknown, missingValue = '') {
+        const source = this.toString()
+        if (separator === null || separator === undefined) return missingValue
+        const token = String(separator)
+        if (token.length === 0) return missingValue
+        const index = source.indexOf(token)
+        if (index === -1) return missingValue
+        return source.slice(index + token.length)
+    }
 }

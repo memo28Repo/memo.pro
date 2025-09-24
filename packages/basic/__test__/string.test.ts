@@ -308,6 +308,7 @@ describe('stringExtensions', () => {
         });
     });
 
+
     describe('count', () => {
         it('应统计子串出现次数', () => {
             expect('banana'.count('na')).toBe(2);
@@ -394,5 +395,6 @@ describe('stringExtensions', () => {
             expect(String.prototype.substringAfter.call('no_delim', '-', 'none')).toBe('none');
         });
     });
+
 })
 

@@ -1,271 +1,125 @@
-<!--
- * @Author: @memo28.repo
- * @Date: 2025-07-28 17:57:19
- * @LastEditTime: 2025-08-10 19:50:00
- * @Description: Notification SDK - 企业级消息通知解决方案
- * @FilePath: /memo28.pro.Repo/packages/notification/README.md
--->
-
 # @memo28.pro/notification
 
 [![npm version](https://badge.fury.io/js/@memo28.pro%2Fnotification.svg)](https://badge.fury.io/js/@memo28.pro%2Fnotification)
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
 
-🚀 **企业级消息通知解决方案** - 支持多平台消息推送的轻量级 TypeScript SDK
+> 多渠道机器人通知的统一编排层，面向企业微信、飞书、钉钉等平台的插件化 TypeScript SDK。
 
-## ✨ 特性
+该包提供一个极简但可扩展的通知流水线：使用 `MessageBuilder` 构造消息、在 `Core` 中注册插件、由插件完成 Webhook 发送。设计重点在于**强类型、插件隔离与发送流程调试友好**，方便在企业内部服务或 DevOps 流水线中快速集成。
 
-- 🎯 **多平台支持**: 企业微信、飞书、钉钉等主流平台
-- 🔧 **插件化架构**: 易于扩展和自定义
-- 📝 **消息构建器**: 支持文本、Markdown 等多种格式
-- 🛡️ **类型安全**: 完整的 TypeScript 类型定义
-- ⚡ **轻量高效**: 零依赖，体积小巧
-- 🧪 **完整测试**: 单元测试和集成测试覆盖
+## ✨ 核心特性
 
-## 📦 安装
+- 🔌 **插件化平台适配**：通过继承 `Base`/`NotificationPlugin` 实现不同平台的发送逻辑。
+- 🧱 **消息构建 DSL**：`MessageBuilder` 支持文本与 Markdown，后续可按需扩展其他类型。
+- 🔁 **链式操作体验**：注册插件、播种消息、触发发送全流程链式调用，适合脚本化集成。
+- 🛡️ **类型安全**：所有公开 API 均为强类型定义，搭配 Vitest 用例保障运行时行为。
 
-```bash
-# npm
-npm install @memo28.pro/notification
+## 🧠 组件速览
 
-# yarn
-yarn add @memo28.pro/notification
+| 组件 | 角色 | 关键方法 |
+| ---- | ---- | -------- |
+| `Core` | 管理插件的中枢，负责注册、配置校验与批量发送 | `registerModule()` · `seed()` · `sendAll()` |
+| `MessageBuilder` | 消息构建器，基于 `MessageBuilderPayload` 提供 `setText`、`setMarkdown` 等链式 API | `create()` · `setText()` · `setMarkdown()` · `getMessages()` |
+| `Base` (`NotificationPlugin`) | 插件基类，封装 webhook、平台标识与消息构建器注入逻辑 | `setWebhook()` · `setPlatform()` · `setMessageBulder()` |
+| `Wxcom` | 企业微信实现示例，演示如何将 `MessageBuilder` 载荷转换为平台 API 需要的格式 | `send()` |
 
-# pnpm
-pnpm add @memo28.pro/notification
+> 目录：`src/core`（核心流程）· `src/message`（消息 DSL）· `src/plugin`（插件与基类）。
+
+## 📁 目录结构
+
+```
+packages/notification
+├── src
+│   ├── core/core.ts            # Core 类：插件注册、校验与批量发送
+│   ├── message/builder.ts      # 消息构建器，继承 builderPayload
+│   ├── message/builderPayload.ts
+│   ├── plugin/plugin.ts        # 插件抽象与基础实现
+│   └── plugin/wxCom.ts         # 企业微信插件示例
+├── __test__                    # Vitest 测试
+└── dist / tsdown.config.ts     # 构建输出与配置
 ```
 
 ## 🚀 快速开始
 
-### 基础用法
-
-```typescript
+```ts
 import { Core, MessageBuilder, Wxcom } from '@memo28.pro/notification';
 
-// 创建核心实例
 const core = new Core();
+const message = MessageBuilder.create()
+  .setText('🚀 部署完成')
+  .setMarkdown(`# 发布通知\\n- 版本: v1.0.0\\n- 状态: ✅`);
 
-// 创建消息构建器
-const msgBuilder = MessageBuilder.create()
-  .setText('🚀 Hello World!')
-  .setMarkdown('# 标题\n\n**粗体文本**');
+const wx = new Wxcom(process.env.WX_WEBHOOK!);
 
-// 创建企业微信插件
-const wxcomPlugin = new Wxcom('YOUR_WEBHOOK_URL');
+core.registerModule(wx)  // 支持传入数组注册多个插件
+    .seed(message);       // 注入消息构建器（自动完成配置校验）
 
-// 注册插件并发送消息
-core.registerModule(wxcomPlugin);
-core.seed(msgBuilder);
-
-// 发送消息
-const result = await wxcomPlugin.send();
-console.log('发送结果:', result);
+await core.sendAll();      // 逐个插件执行 send()
 ```
 
-### 高级用法
+### 发送流程
 
-```typescript
-import { Core, MessageBuilder, Wxcom } from '@memo28.pro/notification';
+1. **注册插件**：`registerModule` 接受单个或数组插件，内部统一维护 `moduleList`。
+2. **播种消息**：`seed` 会将 `MessageBuilder` 注入插件并执行基础配置检查（Webhook、平台标识、消息构建器是否齐全）。
+3. **执行发送**：调用 `sendAll` 时遍历插件，若插件实现 `send()` 即会被触发；失败会记录日志并返回 `false`。
 
-// 创建多个插件实例（发送到不同群组）
-const wxcomPlugin1 = new Wxcom('WEBHOOK_URL_1');
-const wxcomPlugin2 = new Wxcom('WEBHOOK_URL_2');
+## 🔌 扩展新平台
 
-// 构建复杂消息
-const msgBuilder = MessageBuilder.create()
-  .setText('📢 系统通知')
-  .setMarkdown(`
-# 📊 系统状态报告
-
-## 服务状态
-- **API服务**: ✅ 正常
-- **数据库**: ✅ 正常
-- **缓存**: ⚠️ 警告
-
-## 统计信息
-- 在线用户: **1,234**
-- 今日访问: **12,345**
-
----
-*报告时间: ${new Date().toLocaleString()}*
-  `)
-  .setText('📝 如有问题请及时处理');
-
-// 注册多个插件
-const core = new Core();
-core.registerModule([wxcomPlugin1, wxcomPlugin2]);
-core.seed(msgBuilder);
-
-// 批量发送
-const results = await Promise.all([
-  wxcomPlugin1.send(),
-  wxcomPlugin2.send()
-]);
-
-console.log('发送结果:', results);
-```
-
-## 📚 API 文档
-
-### Core 类
-
-核心管理类，负责插件注册和消息分发。
-
-```typescript
-class Core {
-  // 注册单个或多个插件
-  registerModule(module: Base | Base[]): void;
-  
-  // 播种消息到所有已注册的插件
-  seed(msgBuilder: MessageBuilder): void;
-  
-  // 获取已注册插件数量
-  getModuleCount(): number;
-}
-```
-
-### MessageBuilder 类
-
-消息构建器，支持链式调用构建多种格式的消息。
-
-```typescript
-class MessageBuilder {
-  // 创建新的消息构建器实例
-  static create(): MessageBuilder;
-  
-  // 添加文本消息
-  setText(text: string): MessageBuilder;
-  
-  // 添加 Markdown 消息
-  setMarkdown(markdown: string): MessageBuilder;
-  
-  // 获取消息数量
-  getMessageCount(): number;
-  
-  // 获取所有消息
-  getMessages(): MessageBuilderPayload[];
-  
-  // 清空所有消息
-  clear(): MessageBuilder;
-}
-```
-
-### Wxcom 类
-
-企业微信插件，实现企业微信 Webhook 消息发送。
-
-```typescript
-class Wxcom extends Base {
-  // 构造函数
-  constructor(webhook?: string);
-  
-  // 设置 Webhook 地址
-  setWebhook(webhook: string): void;
-  
-  // 发送消息
-  send(): Promise<boolean>;
-  
-  // 获取插件名称
-  getName(): string;
-}
-```
-
-## 🔌 插件开发
-
-你可以通过继承 `Base` 类来开发自定义插件：
-
-```typescript
+```ts
 import { Base, MessageBuilderPayload } from '@memo28.pro/notification';
 
-class CustomPlugin extends Base {
-  constructor(private config: any) {
+class MyPlatform extends Base {
+  constructor(webhook: string) {
     super();
+    this.setPlatform('my-platform');
+    this.setWebhook(webhook);
   }
-  
-  getName(): string {
-    return 'custom';
-  }
-  
+
   async send(): Promise<boolean> {
-    try {
-      // 获取消息列表
-      const messages = this.getMessages();
-      
-      // 实现你的发送逻辑
-      for (const message of messages) {
-        await this.sendMessage(message);
-      }
-      
-      return true;
-    } catch (error) {
-      console.error('发送失败:', error);
-      return false;
-    }
-  }
-  
-  private async sendMessage(message: MessageBuilderPayload): Promise<void> {
-    // 根据消息类型实现具体发送逻辑
-    switch (message.type) {
-      case 'text':
-        // 发送文本消息
-        break;
-      case 'markdown':
-        // 发送 Markdown 消息
-        break;
-    }
+    const payloads = this.getMessageBulder()?.getMessages() ?? [];
+    const res = await fetch(this.getWebhook(), {
+      method: 'POST',
+      body: JSON.stringify(payloads),
+    });
+    return res.ok;
   }
 }
 ```
 
-## 🧪 测试
+实现要点：
+
+- 保持 `setPlatform()` 返回唯一的平台标识，便于日志与监控；
+- 在 `send()` 内使用 `MessageBuilderPayload` 输出的消息数组，可按类型拆分并适配目标 API；
+- 如需额外配置（签名、代理等），可在插件构造函数中扩展参数并缓存到实例属性。
+
+## 🧪 开发与测试
 
 ```bash
-# 运行所有测试
-npm test
+pnpm install
 
-# 运行测试并监听文件变化
-npm run test:watch
+# 构建（通过 tsdown 输出 CJS + ESM）
+pnpm --filter @memo28.pro/notification build
 
-# 运行测试 UI
-npm run test:ui
+# 运行测试
+pnpm --filter @memo28.pro/notification test
+pnpm --filter @memo28.pro/notification test:watch
 ```
 
-## 📋 系统架构
+Vitest 测试覆盖消息构建、插件注入和发送流程的关键路径，可作为新增插件时的参考模版。
 
-```mermaid
-graph TD
-    A[Core SDK] --> B[Plugin Adapter]
-    B --> C[WeCom Plugin]
-    B --> D[Lark/Feishu Plugin]
-    B --> E[Custom Plugin]
-    A --> F[Message Builder]
-    A --> G[Token Manager]
-    A --> H[Error Handler]
-```
+## 🛠️ 调试建议
 
-## 🤝 贡献
+- **Webhook 校验**：`Core.seed` 会输出缺失 Webhook 或平台标识的警告，可借此快速定位配置问题。
+- **多渠道并发**：`core.sendAll()` 默认串行执行，如需并行可在业务侧自行 `Promise.all` 对插件逐个调用 `send()`。
+- **网络调试**：`Wxcom.send()` 内部使用 `fetch`，可通过 `global.fetch = ...` 注入自定义实现或结合 Vite/Vitest 的 `vi.spyOn` 进行断言。
 
-欢迎提交 Issue 和 Pull Request！
+## 🤝 贡献指南
 
-1. Fork 本仓库
-2. 创建你的特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交你的修改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 打开一个 Pull Request
+1. Fork 仓库并创建特性分支。
+2. 为新增能力补充 Vitest 用例与类型声明。
+3. 通过 `pnpm --filter @memo28.pro/notification build` 和 `test` 校验无误后提交 PR。
 
 ## 📄 许可证
 
-本项目采用 [ISC](https://opensource.org/licenses/ISC) 许可证。
-
-## 🔗 相关链接
-
-- [企业微信机器人文档](https://developer.work.weixin.qq.com/document/path/91770)
-- [飞书机器人文档](https://open.feishu.cn/document/ukTMukTMukTM/ucTM5YjL3ETO24yNxkjN)
-- [钉钉机器人文档](https://developers.dingtalk.com/document/app/custom-robot-access)
-
----
-
-<p align="center">
-  Made with ❤️ by <a href="https://github.com/memo28">@memo28.repo</a>
-</p>
+本包以 ISC 协议开源，可自由在企业与个人项目中使用与修改。

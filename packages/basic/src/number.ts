@@ -113,4 +113,62 @@ export function numberExtensions() {
         return rawValue > lower && rawValue < upper
     }
 
+
+    /**
+     * 按指定精度对数值进行舍入
+     *
+     * @param precision 保留的小数位数，可为负值表示向十位、百位取整
+     * @param mode 舍入模式，默认为四舍五入
+     */
+    Number.prototype.roundTo = function (this: Number, precision: number = 0, mode: 'round' | 'floor' | 'ceil' = 'round') {
+        const numericValue = Number(this.valueOf())
+        if (!Number.isFinite(numericValue)) {
+            return Number.isNaN(numericValue) ? Number.NaN : numericValue
+        }
+
+        let normalizedPrecision = Number(precision)
+        if (!Number.isFinite(normalizedPrecision)) {
+            normalizedPrecision = 0
+        }
+        normalizedPrecision = Math.trunc(normalizedPrecision)
+
+        const normalizedMode = typeof mode === 'string' ? mode.toLowerCase() : 'round'
+        const roundingMode = normalizedMode === 'floor'
+            ? Decimal.ROUND_FLOOR
+            : normalizedMode === 'ceil'
+                ? Decimal.ROUND_CEIL
+                : Decimal.ROUND_HALF_UP
+
+        const decimalValue = new Decimal(numericValue)
+        if (normalizedPrecision >= 0) {
+            return decimalValue.toDecimalPlaces(normalizedPrecision, roundingMode).toNumber()
+        }
+
+        const factor = new Decimal(10).pow(-normalizedPrecision)
+        const scaled = decimalValue.div(factor)
+        const rounded = scaled.toDecimalPlaces(0, roundingMode)
+        return rounded.times(factor).toNumber()
+    }
+
+    /**
+     * 判断当前数值是否为偶数
+     */
+    Number.prototype.isEven = function (this: Number) {
+        const numericValue = Number(this.valueOf())
+        if (!Number.isFinite(numericValue)) return false
+        if (!Number.isInteger(numericValue)) return false
+        return Math.abs(numericValue % 2) === 0
+    }
+
+    /**
+     * 判断当前数值是否为奇数
+     */
+    Number.prototype.isOdd = function (this: Number) {
+        const numericValue = Number(this.valueOf())
+        if (!Number.isFinite(numericValue)) return false
+        if (!Number.isInteger(numericValue)) return false
+        return Math.abs(numericValue % 2) === 1
+    }
+
+
 }

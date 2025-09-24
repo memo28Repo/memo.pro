@@ -116,4 +116,61 @@ describe('arrayExtensions', () => {
     });
 
 
+    describe('compact', () => {
+        it('应移除null和undefined', () => {
+            expect([1, null, 2, undefined, 3].compact()).toEqual([1, 2, 3]);
+        });
+
+        it('应保留其他假值', () => {
+            expect([0, false, '', NaN].compact()).toEqual([0, false, '', NaN]);
+        });
+
+        it('应处理稀疏数组', () => {
+            const sparse = [1, , 3, null];
+            expect(sparse.compact()).toEqual([1, 3]);
+        });
+
+        it('this指向测试', () => {
+            const result = Array.prototype.compact.call([null, 1, undefined, 2]);
+            expect(result).toEqual([1, 2]);
+        });
+    });
+
+    describe('groupBy', () => {
+        it('应根据回调结果分组', () => {
+            const grouped = ['apple', 'art', 'banana'].groupBy(item => item[0]);
+            expect(grouped).toEqual({ a: ['apple', 'art'], b: ['banana'] });
+        });
+
+        it('应支持数字键', () => {
+            const grouped = [1, 2, 3, 4, 5].groupBy(num => num % 2);
+            expect(grouped).toEqual({ '0': [2, 4], '1': [1, 3, 5] });
+        });
+
+        it('应处理空数组', () => {
+            const grouped: Record<string, unknown[]> = [].groupBy(() => 'key');
+            expect(grouped).toEqual({});
+            expect(Object.getPrototypeOf(grouped)).toBe(null);
+        });
+
+        it('应处理空值键', () => {
+            const grouped = [null, undefined, 'value'].groupBy(item => item as any);
+            expect(grouped).toEqual({ null: [null], undefined: [undefined], value: ['value'] });
+        });
+
+        it('this指向测试', () => {
+            const result = Array.prototype.groupBy.call(['foo', 'bar'], (item: string) => item.length);
+            expect(result).toEqual({ '3': ['foo', 'bar'] });
+        });
+
+        it('无效迭代器应抛出异常', () => {
+            expect(() => {
+                // @ts-ignore
+                [1, 2, 3].groupBy(null);
+            }).toThrowError(TypeError);
+        });
+    });
+
+
+
 })

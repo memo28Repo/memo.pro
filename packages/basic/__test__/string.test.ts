@@ -307,5 +307,94 @@ describe('stringExtensions', () => {
             expect(String.prototype.isBlank.call(' 1 ')).toBe(false);
         });
     });
+
+
+    describe('count', () => {
+        it('应统计子串出现次数', () => {
+            expect('banana'.count('na')).toBe(2);
+            expect('aaaa'.count('aa')).toBe(2);
+            expect('ababab'.count('ab')).toBe(3);
+        });
+
+        it('允许重叠匹配', () => {
+            expect('aaaa'.count('aa', true)).toBe(3);
+            expect('1111'.count('11', true)).toBe(3);
+        });
+
+        it('空子串或空值应返回0', () => {
+            expect('abc'.count('')).toBe(0);
+            // @ts-ignore
+            expect('abc'.count(null)).toBe(0);
+            // @ts-ignore
+            expect('abc'.count(undefined)).toBe(0);
+        });
+
+        it('支持非字符串参数', () => {
+            // @ts-ignore
+            expect('2024'.count(20)).toBe(1);
+            // @ts-ignore
+            expect('true false true'.count(true)).toBe(2);
+        });
+
+        it('this指向测试', () => {
+            expect(String.prototype.count.call('aaaa', 'aa')).toBe(2);
+            expect(String.prototype.count.call('aaaa', 'aa', true)).toBe(3);
+            // @ts-ignore
+            expect(String.prototype.count.call(12345 as any, '23')).toBe(1);
+        });
+    });
+
+    describe('substringBefore', () => {
+        it('应返回分隔符之前的内容', () => {
+            expect('key=value'.substringBefore('=')).toBe('key');
+            expect('prefix-body'.substringBefore('-')).toBe('prefix');
+            expect('=leading'.substringBefore('=')).toBe('');
+        });
+
+        it('未找到分隔符时应返回默认值', () => {
+            expect('no-separator'.substringBefore(':')).toBe('no-separator');
+            expect('missing'.substringBefore(':', 'fallback')).toBe('fallback');
+        });
+
+        it('空分隔符或空值返回原字符串', () => {
+            expect('sample'.substringBefore('')).toBe('sample');
+            // @ts-ignore
+            expect('sample'.substringBefore(null)).toBe('sample');
+            // @ts-ignore
+            expect('sample'.substringBefore(undefined)).toBe('sample');
+        });
+
+        it('this指向测试', () => {
+            expect(String.prototype.substringBefore.call('path/to/file', '/')).toBe('path');
+            // @ts-ignore
+            expect(String.prototype.substringBefore.call(12345 as any, '3')).toBe('12');
+        });
+    });
+
+    describe('substringAfter', () => {
+        it('应返回分隔符之后的内容', () => {
+            expect('key=value'.substringAfter('=')).toBe('value');
+            expect('multi=part=value'.substringAfter('=')).toBe('part=value');
+            expect('trailing='.substringAfter('=')).toBe('');
+        });
+
+        it('未找到分隔符时应返回默认值', () => {
+            expect('no-separator'.substringAfter(':')).toBe('');
+            expect('missing'.substringAfter(':', 'fallback')).toBe('fallback');
+        });
+
+        it('空分隔符或空值返回默认值', () => {
+            expect('sample'.substringAfter('')).toBe('');
+            expect('sample'.substringAfter('', 'fallback')).toBe('fallback');
+            // @ts-ignore
+            expect('sample'.substringAfter(null, 'fallback')).toBe('fallback');
+        });
+
+        it('this指向测试', () => {
+            expect(String.prototype.substringAfter.call('path/to/file', '/')).toBe('to/file');
+            expect(String.prototype.substringAfter.call('no_delim', '-', 'none')).toBe('none');
+        });
+    });
+
 })
 

@@ -44,4 +44,44 @@ export function arrayExtensions() {
         }
         return result
     }
+
+
+    /**
+     * 返回移除 null/undefined 后的新数组
+     */
+    Array.prototype.compact = function <T>(this: T[]) {
+        const result: T[] = []
+        for (let index = 0; index < this.length; index++) {
+            if (!Object.prototype.hasOwnProperty.call(this, index)) continue
+            const value = this[index]
+            if (value !== null && value !== undefined) {
+                result.push(value)
+            }
+        }
+        return result
+    }
+
+    /**
+     * 依据迭代器返回的键对数组进行分组
+     *
+     * @param iteratee 用于生成分组键的函数
+     */
+    Array.prototype.groupBy = function <T, K>(this: T[], iteratee: (item: T, index: number, array: T[]) => K) {
+        if (typeof iteratee !== 'function') {
+            throw new TypeError('groupBy expects a function')
+        }
+        const groups: Record<string, T[]> = Object.create(null)
+        for (let index = 0; index < this.length; index++) {
+            if (!Object.prototype.hasOwnProperty.call(this, index)) continue
+            const item = this[index]
+            const key = iteratee(item, index, this)
+            const normalizedKey = key === null ? 'null' : key === undefined ? 'undefined' : String(key)
+            if (!Object.prototype.hasOwnProperty.call(groups, normalizedKey)) {
+                groups[normalizedKey] = []
+            }
+            groups[normalizedKey].push(item)
+        }
+        return groups as Record<string, T[]>
+    }
+
 }

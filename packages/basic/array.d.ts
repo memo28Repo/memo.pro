@@ -17,6 +17,18 @@ export interface ArrayExtensions<T> extends BaseFuncCall<T[]>, Collection<T> {
      * 按指定大小分组
      */
     chunk(size: number): T[][];
+
+
+    /**
+     * 移除数组中的 null 与 undefined
+     */
+    compact(): T[];
+
+    /**
+     * 根据迭代器返回的键进行分组
+     */
+    groupBy<K extends PropertyKey>(iteratee: (item: T, index: number, array: T[]) => K): Record<string, T[]>;
+
 }
 
 declare global {

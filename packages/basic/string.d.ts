@@ -21,6 +21,23 @@ export interface StringExtensions extends BaseFuncCall<string>, Collection<strin
      * 判断字符串是否为空白
      */
     isBlank(): boolean;
+
+
+    /**
+     * 统计指定子串出现的次数
+     */
+    count(substring: string, allowOverlap?: boolean): number;
+
+    /**
+     * 获取第一次出现分隔符之前的内容
+     */
+    substringBefore(separator: string, missingValue?: string): string;
+
+    /**
+     * 获取第一次出现分隔符之后的内容
+     */
+    substringAfter(separator: string, missingValue?: string): string;
+
 }
 
 declare global {

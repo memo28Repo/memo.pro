@@ -35,6 +35,7 @@ export interface NumberExtensions extends BaseFuncCall<number>, Comparable<numbe
      */
     isBetween(min: number, max: number, inclusive?: boolean): boolean
 
+
     /**
      * 按指定精度舍入数值
      */
@@ -49,6 +50,7 @@ export interface NumberExtensions extends BaseFuncCall<number>, Comparable<numbe
      * 判断是否为奇数
      */
     isOdd(): boolean
+
 }
 
 declare global {

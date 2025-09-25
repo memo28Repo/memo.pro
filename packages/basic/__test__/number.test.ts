@@ -359,6 +359,7 @@ describe('numberExtensions', () => {
         });
     });
 
+
     describe('roundTo', () => {
         it('应按照精度进行四舍五入', () => {
             expect((12.3456).roundTo(2)).toBe(12.35);
@@ -430,6 +431,7 @@ describe('numberExtensions', () => {
             expect(Number.prototype.isOdd.call('abc' as any)).toBe(false);
         });
     });
+
 })
 
 

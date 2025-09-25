@@ -115,6 +115,7 @@ describe('arrayExtensions', () => {
         });
     });
 
+
     describe('compact', () => {
         it('应移除null和undefined', () => {
             expect([1, null, 2, undefined, 3].compact()).toEqual([1, 2, 3]);

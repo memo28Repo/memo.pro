@@ -113,6 +113,7 @@ export function numberExtensions() {
         return rawValue > lower && rawValue < upper
     }
 
+
     /**
      * 按指定精度对数值进行舍入
      *
@@ -168,5 +169,6 @@ export function numberExtensions() {
         if (!Number.isInteger(numericValue)) return false
         return Math.abs(numericValue % 2) === 1
     }
+
 
 }

@@ -1,5 +1,11 @@
 # @memo28.pro/basic
 
+## 0.0.7
+
+### Patch Changes
+
+- 丰富更多的api
+
 ## 0.0.6
 
 ### Patch Changes

@@ -1,6 +1,8 @@
 # @memo28.pro/basic
 
-> 原生 `String`、`Array`、`Object` 与 `Number` 的原型增强合集，提供一致的空值、安全访问与数值比较体验。
+
+> 轻量却贴心的原型扩展合集，让字符串、数组、对象与数字处理像写伪代码一样顺滑。
+
 
 `@memo28.pro/basic` 通过可选的初始化函数为常用原生类型注入一组经过类型定义约束的实用方法。所有扩展都以 "少即是多" 为原则：避免污染命名空间、保持易读的调用方式，并在需要数值精度时由 `decimal.js` 提供支撑。
 
@@ -63,9 +65,26 @@ numberExtensions();
 - **语义化比较**：`isBetween()`、`clamp()` 帮助明确边界约束；`equalsIgnoreCase()` 面向用户输入。
 - **集合工具链**：`distinct()` 与 `chunk(size)` 组合实现快速数据预处理。
 
+
 ## 🧪 开发与测试
 
 ```bash
+
+pnpm --filter @memo28.pro/basic test
+```
+
+Vitest 默认会输出覆盖率摘要，便于持续关注边界情况的守护。
+
+## 🤝 贡献
+
+- 提交前运行 `pnpm format` & `pnpm test`，保持代码整洁可靠。
+- 欢迎通过 Issue 分享新的原型扩展灵感，或直接 PR 加入更多贴心方法！
+
+## 📄 许可证
+
+MIT
+
+
 # 在 monorepo 根目录执行
 pnpm install
 
@@ -95,3 +114,4 @@ pnpm --filter @memo28.pro/basic test:watch
 本包基于 [ISC](https://opensource.org/licenses/ISC) 许可证发布。
 
 如需了解更高层的使用案例，可参考 monorepo 内其他包对本模块的依赖方式。
+

@@ -293,6 +293,143 @@ describe('numberExtensions', () => {
             expect(Number.prototype.isEmpty.call('0' as any)).toBe(false); // 错误类型
         });
     });
+
+    describe('clamp', () => {
+        it('应限制在区间内', () => {
+            expect((5).clamp(1, 10)).toBe(5);
+            expect((0).clamp(-5, 5)).toBe(0);
+        });
+
+        it('小于下限应返回下限', () => {
+            expect((-10).clamp(-5, 5)).toBe(-5);
+        });
+
+        it('大于上限应返回上限', () => {
+            expect((10).clamp(-5, 5)).toBe(5);
+        });
+
+        it('边界顺序可自动调整', () => {
+            expect((2).clamp(5, 1)).toBe(2);
+            expect((0).clamp(5, -5)).toBe(0);
+        });
+
+        it('NaN边界应返回NaN', () => {
+            expect(Number.isNaN((1).clamp(NaN, 5))).toBe(true);
+            expect(Number.isNaN((1).clamp(0, NaN))).toBe(true);
+        });
+
+        it('this为NaN应返回NaN', () => {
+            expect(Number.isNaN((NaN).clamp(0, 1))).toBe(true);
+        });
+
+        it('应处理无穷值', () => {
+            expect((Infinity).clamp(0, 10)).toBe(10);
+            expect((-Infinity).clamp(-10, 10)).toBe(-10);
+        });
+    });
+
+    describe('isBetween', () => {
+        it('默认包含边界', () => {
+            expect((5).isBetween(1, 10)).toBe(true);
+            expect((1).isBetween(1, 10)).toBe(true);
+            expect((10).isBetween(1, 10)).toBe(true);
+        });
+
+        it('非包含比较', () => {
+            expect((5).isBetween(1, 10, false)).toBe(true);
+            expect((1).isBetween(1, 10, false)).toBe(false);
+            expect((10).isBetween(1, 10, false)).toBe(false);
+        });
+
+        it('边界顺序可调整', () => {
+            expect((5).isBetween(10, 1)).toBe(true);
+            expect((0).isBetween(5, -5)).toBe(true);
+        });
+
+        it('NaN应返回false', () => {
+            expect((NaN).isBetween(0, 1)).toBe(false);
+            expect((1).isBetween(NaN, 5)).toBe(false);
+            expect((1).isBetween(0, NaN)).toBe(false);
+        });
+
+        it('应处理无穷值', () => {
+            expect((Infinity).isBetween(0, Infinity)).toBe(true);
+            expect((-Infinity).isBetween(-Infinity, 0)).toBe(true);
+            expect((5).isBetween(-Infinity, Infinity, false)).toBe(true);
+        });
+    });
+
+    describe('roundTo', () => {
+        it('应按照精度进行四舍五入', () => {
+            expect((12.3456).roundTo(2)).toBe(12.35);
+            expect((12.344).roundTo(2)).toBe(12.34);
+            expect((12.5).roundTo()).toBe(13);
+        });
+
+        it('应支持负精度', () => {
+            expect((1234.5).roundTo(-1)).toBe(1230);
+            expect((15).roundTo(-1)).toBe(20);
+        });
+
+        it('应支持不同舍入模式', () => {
+            expect((12.349).roundTo(2, 'floor')).toBe(12.34);
+            expect((12.341).roundTo(2, 'ceil')).toBe(12.35);
+            expect((-12.341).roundTo(2, 'ceil')).toBe(-12.34);
+        });
+
+        it('无效参数应使用默认行为', () => {
+            // @ts-ignore
+            expect((12.3456).roundTo('2')).toBe(12.35);
+            // @ts-ignore
+            expect((12.3456).roundTo(2, 'unknown')).toBe(12.35);
+        });
+
+        it('极端值处理', () => {
+            expect((Infinity).roundTo(2)).toBe(Infinity);
+            expect(Number.isNaN((NaN).roundTo(2))).toBe(true);
+            expect(Number.isNaN(Number.prototype.roundTo.call('abc' as any, 2))).toBe(true);
+        });
+
+        it('this指向测试', () => {
+            expect(Number.prototype.roundTo.call('3.14159' as any, 2)).toBe(3.14);
+        });
+    });
+
+    describe('isEven', () => {
+        it('应识别偶数', () => {
+            expect((4).isEven()).toBe(true);
+            expect((0).isEven()).toBe(true);
+            expect((-10).isEven()).toBe(true);
+        });
+
+        it('应排除非偶数', () => {
+            expect((3).isEven()).toBe(false);
+            expect((2.5).isEven()).toBe(false);
+        });
+
+        it('特殊值处理', () => {
+            expect((Infinity).isEven()).toBe(false);
+            expect(Number.prototype.isEven.call('abc' as any)).toBe(false);
+        });
+    });
+
+    describe('isOdd', () => {
+        it('应识别奇数', () => {
+            expect((3).isOdd()).toBe(true);
+            expect((-3).isOdd()).toBe(true);
+        });
+
+        it('应排除非奇数', () => {
+            expect((2).isOdd()).toBe(false);
+            expect((2.5).isOdd()).toBe(false);
+            expect((0).isOdd()).toBe(false);
+        });
+
+        it('特殊值处理', () => {
+            expect((Infinity).isOdd()).toBe(false);
+            expect(Number.prototype.isOdd.call('abc' as any)).toBe(false);
+        });
+    });
 })
 
 

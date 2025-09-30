@@ -8,8 +8,8 @@
   "type": "module",
   "scripts": {
     "test": "vitest run",
-    "build": "tsdown --format cjs,esm --platform browser --minify",
-    "build:watch": "tsdown --watch",
+    "build": "memo-bundler --config memo-bundler.config.ts",
+    "build:watch": "memo-bundler --config memo-bundler.config.ts --watch",
     "build:md": "pnpm build && api-extractor run --local --verbose && sh mv.sh",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
@@ -39,6 +39,6 @@
   "license": "ISC",
   "packageManager": "pnpm@10.8.1",
   "devDependencies": {
-    "tsdown": "^0.14.1"
+    "@memo28.pro/bundler": "workspace:*"
   }
 }

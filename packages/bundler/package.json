@@ -1,6 +1,6 @@
 {
   "name": "@memo28.pro/bundler",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Memo28 的 tsdown 打包工具封装",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -30,6 +30,10 @@
     "mri": "^1.2.0",
     "picocolors": "^1.0.0",
     "tsdown": "^0.14.1"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
   "devDependencies": {
     "typescript": "^5.7.2"

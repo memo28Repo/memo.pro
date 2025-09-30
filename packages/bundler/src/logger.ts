@@ -1,5 +1,14 @@
-import type {Logger, LogLevel} from 'tsdown'
+/*
+ * @Author: @memo28.repo
+ * @Date: 2025-09-30 19:59:50
+ * @LastEditTime: 2025-09-30 20:10:56
+ * @Description: 
+ * @FilePath: /memo28.pro.Repo/packages/bundler/src/logger.ts
+ */
 import pc from 'picocolors'
+import type { Logger } from 'tsdown'
+
+export type LogLevel = 'silent' | 'error' | 'warn' | 'info'
 
 const LEVEL_WEIGHT: Record<LogLevel, number> = {
     silent: 0,
@@ -41,22 +50,22 @@ export function createFriendlyLogger(name?: string, level: LogLevel = 'info'): L
         },
         info(...msgs: any[]) {
             const message = localizeMessage(formatMessage(msgs))
-            output('info', `${pc.blue('ℹ️ 信息')} ${prefix}${message}`)
+            output('info', `${pc.blue('[info] 信息')} ${prefix}${message}`)
         },
         warn(...msgs: any[]) {
             const message = localizeMessage(formatMessage(msgs))
             warned.add(message)
-            output('warn', `${pc.yellow('⚠️ 警告')} ${prefix}${message}`)
+            output('warn', `${pc.yellow('[warn] 警告')} ${prefix}${message}`)
         },
         warnOnce(...msgs: any[]) {
             const message = localizeMessage(formatMessage(msgs))
             if (warned.has(message)) return
             warned.add(message)
-            output('warn', `${pc.yellow('⚠️ 警告')} ${prefix}${message}`)
+            output('warn', `${pc.yellow('[warn] 警告')} ${prefix}${message}`)
         },
         error(...msgs: any[]) {
             const message = localizeMessage(formatMessage(msgs))
-            output('error', `${pc.red('❌ 错误')} ${prefix}${message}`)
+            output('error', `${pc.red('[error] 错误')} ${prefix}${message}`)
         },
         success(...msgs: any[]) {
             const message = localizeMessage(formatMessage(msgs))

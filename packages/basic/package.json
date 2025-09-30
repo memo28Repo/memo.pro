@@ -1,6 +1,6 @@
 {
   "name": "@memo28.pro/basic",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "basic utils",
   "main": "./dist/src/index.cjs",
   "module": "./dist/src/index.js",

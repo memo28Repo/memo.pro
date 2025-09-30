@@ -1,5 +1,5 @@
-import {existsSync, readFileSync} from 'node:fs'
-import {dirname, join} from 'node:path'
+import { existsSync, readFileSync } from 'node:fs'
+import { dirname, join } from 'node:path'
 
 export function findNearestPackageName(startDir: string): string | undefined {
     let current = startDir

@@ -1,5 +1,11 @@
 # @memo28.pro/basic
 
+## 0.0.8
+
+### Patch Changes
+
+- 新增memoBuilder 打包工具
+
 ## 0.0.7
 
 ### Patch Changes

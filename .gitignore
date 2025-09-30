@@ -20,6 +20,8 @@ build
 ignoreConfig.ts
 
 dist
+.memo-bundler/
+**/.memo-bundler/
 
 # debug
 npm-debug.log*

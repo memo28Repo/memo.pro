@@ -4,3 +4,4 @@
 /// <reference path="./number.d.ts" />
 /// <reference path="./object.d.ts" />
 /// <reference path="./string.d.ts" />
+/// <reference path="./optional.d.ts" />

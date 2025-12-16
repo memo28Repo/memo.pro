@@ -1,5 +1,5 @@
 // 初始化扩展方法
-import {stringExtensions, objectExtensions, arrayExtensions, numberExtensions} from '../src';
+import {stringExtensions, objectExtensions, arrayExtensions, numberExtensions, optionalExtensions} from '../src';
 import {beforeAll, afterAll} from 'vitest'
 
 // 保存原始原型方法
@@ -10,11 +10,14 @@ const originalPrototypes = {
     object: {...Object.prototype},
 };
 
+const originalGlobalOptional = (globalThis as typeof globalThis & {Optional?: unknown}).Optional;
+
 beforeAll(() => {
     stringExtensions();
     arrayExtensions();
     numberExtensions();
     objectExtensions();
+    optionalExtensions();
 });
 
 afterAll(() => {
@@ -23,6 +26,13 @@ afterAll(() => {
     Object.assign(Array.prototype, originalPrototypes.array);
     Object.assign(Number.prototype, originalPrototypes.number);
     Object.assign(Object.prototype, originalPrototypes.object);
+
+    if (originalGlobalOptional === undefined) {
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+        delete (globalThis as typeof globalThis & {Optional?: unknown}).Optional;
+    } else {
+        (globalThis as typeof globalThis & {Optional?: unknown}).Optional = originalGlobalOptional;
+    }
 });
 
 // // 处理第三方库冲突

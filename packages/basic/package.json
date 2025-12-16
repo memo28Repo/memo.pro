@@ -33,6 +33,7 @@
     "number.d.ts",
     "object.d.ts",
     "string.d.ts",
+    "optional.d.ts",
     "all.d.ts"
   ],
   "author": "",

@@ -14,6 +14,7 @@
 | 数组 (Array)    | 集合判空、包含判断、去重与切片       | `contains()` · `distinct()` · `chunk()` |
 | 对象 (Object)   | 空对象检测、安全取值、键存在性检查   | `isEmpty()` · `contains()` · `lastOrNull()` |
 | 数值 (Number)   | 可靠比较、区间约束、Decimal 精度包装 | `greaterThan()` · `isBetween()` · `clamp()` · `toDecimal()` |
+| 可选值 (Optional) | Java 风格的安全值包装、链式判空与回退 | `Optional.of()` · `map()` · `orElseGet()` · `ifPresentOrElse()` |
 
 > 所有扩展方法都配套 `.d.ts` 声明文件 (`array.d.ts`、`number.d.ts` …)，确保在 TypeScript 项目中拥有完整的智能提示与类型检查体验。
 
@@ -45,6 +46,7 @@ import {
   arrayExtensions,
   objectExtensions,
   numberExtensions,
+  optionalExtensions,
 } from '@memo28.pro/basic';
 
 // 在程序入口初始化（只需调用一次）
@@ -52,11 +54,13 @@ stringExtensions();
 arrayExtensions();
 objectExtensions();
 numberExtensions();
+optionalExtensions();
 
 '  '.isBlank();            // true
 [1, 1, 2].distinct();      // [1, 2]
 ({ a: 1 }).contains('a');  // true
 (0.1).greaterThan(0.09);   // true（Decimal 支持）
+Optional.ofNullable(user?.email).map(v => v.trim()).orElse(''); // 安全读取并降噪
 ```
 
 ### 常用模式
@@ -64,6 +68,17 @@ numberExtensions();
 - **安全访问**：通过 `firstOrNull()` / `lastOrNull()` 系列避免访问空集合抛错。
 - **语义化比较**：`isBetween()`、`clamp()` 帮助明确边界约束；`equalsIgnoreCase()` 面向用户输入。
 - **集合工具链**：`distinct()` 与 `chunk(size)` 组合实现快速数据预处理。
+- **可选值包装**：`Optional.ofNullable()` 将链式调用里的空值风险收束在同一个 API 内，配合 `map()`、`flatMap()` 与 `orElseGet()` 可以覆盖“值加工、缺省回退、延迟求值”等常见路径。
+
+### Optional 方法速览
+
+- `Optional.of(value)`：传入的值不可为空，空值会抛出错误，适合明确存在的场景。
+- `Optional.ofNullable(value)`：接受可能为空的值，空值将得到共享的 `empty` 实例。
+- `map(fn)` / `flatMap(fn)`：在不解包的前提下加工数据，`flatMap` 需要返回 `Optional` 实例。
+- `filter(predicate)`：条件不满足时自动回退为空，可用于链式判定。
+- `orElse(value)` / `orElseGet(fn)`：为缺省场景提供静态或惰性默认值。
+- `ifPresent(consumer)` / `ifPresentOrElse(consumer, emptyAction)`：聚焦副作用或分支处理。
+- `toNullable()`：将 `Optional` 中的值转换回 `null`/具体值，便于与旧代码衔接。
 
 
 ## 🧪 开发与测试
